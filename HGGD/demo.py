@@ -1,4 +1,5 @@
 import argparse
+import logging
 import os
 import random
 from time import time
@@ -53,6 +54,52 @@ parser.add_argument('--rotation-num', type=int, default=1)
 parser.add_argument('--random-seed', type=int, default=123, help='Random seed')
 
 args = parser.parse_args()
+
+
+def print_top_grasps(pred_gg, k: int = 3):
+    """
+    Pretty-print the top-k grasp candidates in camera coordinates.
+
+    Handles the legacy dataset.grasp.GraspGroup layout where entries can be
+    numpy arrays/tensors (sometimes shape (1,) or (3,1), etc.).
+    """
+    if pred_gg is None or len(pred_gg) == 0:
+        print("No grasp candidates to display.")
+        return
+
+    # sort by descending score (best first)
+    pred_gg.sort()
+
+    def _to_flat_np(x):
+        """Convert tensor/array-like to a flat numpy array."""
+        if isinstance(x, torch.Tensor):
+            x = x.detach().cpu().numpy()
+        x = np.asarray(x)
+        return x.reshape(-1)
+
+    top = min(k, len(pred_gg))
+    print(f"\nTop-{top} grasp poses (camera frame):")
+
+    for i in range(top):
+        pos  = _to_flat_np(pred_gg.translations[i])   # expect 3 values
+        quat = _to_flat_np(pred_gg.rotations[i])      # expect 4 values
+        w    = _to_flat_np(pred_gg.widths[i])
+        s    = _to_flat_np(pred_gg.scores[i])
+
+        # take first expected elements (safe even if extra dims exist)
+        px, py, pz = float(pos[0]), float(pos[1]), float(pos[2])
+        q0, q1, q2, q3 = float(quat[0]), float(quat[1]), float(quat[2]), float(quat[3])
+        width = float(w[0])
+        score = float(s[0])
+
+        print(
+            f" #{i+1}: pos=({px:.3f}, {py:.3f}, {pz:.3f}) m | "
+            f"quat=({q0:.3f}, {q1:.3f}, {q2:.3f}, {q3:.3f}) | "
+            f"width={width:.3f} m | score={score:.3f}"
+        )
+
+    print("-" * 72)
+
 
 
 class PointCloudHelper:
@@ -322,6 +369,9 @@ if __name__ == '__main__':
                         ori_depth,
                         vis_heatmap=True,
                         vis_grasp=True)
+
+    # NEW: print the top 3 grasps (sorted by score)
+    print_top_grasps(pred_gg, k=3)
 
     # time test
     start = time()

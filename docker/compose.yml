@@ -26,17 +26,17 @@ services:
       - LC_ALL=en_US.UTF-8
       - ROS_DISTRO=humble
       - ROS_DOMAIN_ID=0
-      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
       - MPLBACKEND=Agg
       - QT_QPA_PLATFORM=offscreen
+      - RWM_IMPLEMENTATION=rmw_cyclonedds_cpp
 
     volumes:
       # your editable repo (host) → workspace inside the container
-      - /home/iki/kortex_sim/src/hggd_ros2:/ros2_ws/src/hggd_ros2
+      - /home/iki/ws_ros2/src/hggd_humble:/ros2_ws/src/hggd_humble
       # X11 socket for Open3D / RViz
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
 

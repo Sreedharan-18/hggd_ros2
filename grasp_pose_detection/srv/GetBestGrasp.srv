@@ -1,0 +1,12 @@
+# Request
+bool run         # if false, just returns latest “availability”
+float32 timeout  # seconds to wait for fresh rgb+depth
+
+---
+# Response
+bool success
+string message
+
+geometry_msgs/PoseStamped grasp_pose   # camera frame
+float32 width_m
+float32 score

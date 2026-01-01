@@ -1,0 +1,26 @@
+CUDA_VISIBLE_DEVICES=0 python3 pred_grasp.py \
+  --center-num 48 \
+  --anchor-num 7 \
+  --anchor-k 6 \
+  --anchor-w 50 \
+  --anchor-z 20 \
+  --grid-size 8 \
+  --all-points-num 25600 \
+  --group-num 512 \
+  --local-k 10 \
+  --ratio 8 \
+  --input-h 360 \
+  --input-w 640 \
+  --local-thres 0.01 \
+  --heatmap-thres 0.01 \
+  --checkpoint-path './realsense_checkpoint' \
+  --rgb-path './images/ros2_rgb.png' \
+  --depth-path './images/ros2_depth.png' \
+  --publish 1 \
+  --publish-hz 10 \
+  --publish-seconds 0\
+  --frame-id camera_color_frame \
+  --pose-topic /hggd_grasp_pose \
+  --width-topic /hggd_grasp_width_m \
+  --score-topic /hggd_grasp_score
+

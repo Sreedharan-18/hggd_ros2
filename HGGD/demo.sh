@@ -14,5 +14,5 @@ CUDA_VISIBLE_DEVICES=0 python demo.py \
 --local-thres 0.01 \
 --heatmap-thres 0.01 \
 --checkpoint './realsense_checkpoint' \
---rgb-path './images/demo_rgb.png' \
---depth-path './images/demo_depth.png'
+--rgb-path './images/ros2_rgb.png' \
+--depth-path './images/ros2_depth.png' 
