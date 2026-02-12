@@ -1,4 +1,4 @@
-CUDA_VISIBLE_DEVICES=0 python3 pred_grasp.py \
+CUDA_VISIBLE_DEVICES=0 python3 hggd_grasp.py \
   --center-num 48 \
   --anchor-num 7 \
   --anchor-k 6 \
@@ -19,8 +19,8 @@ CUDA_VISIBLE_DEVICES=0 python3 pred_grasp.py \
   --publish 1 \
   --publish-hz 10 \
   --publish-seconds 0\
-  --frame-id camera_color_frame \
+  --frame-id color_optical_frame \
   --pose-topic /hggd_grasp_pose \
   --width-topic /hggd_grasp_width_m \
-  --score-topic /hggd_grasp_score
+  --score-topic /hggd_grasp_score \
 

@@ -335,10 +335,9 @@ def evaluate():
                                       args.scene_l,
                                       args.scene_r,
                                       proc=args.num_workers)
-    np.save('temp_result.npy', res)
+    np.save('temp_result_scene160_189.npy', res)
     # get ap 0.8 and ap 0.4
     aps = res.mean(0).mean(0).mean(0)
-    logging.info(f'Scene: {args.scene_l} ~ {args.scene_r}')
     logging.info(f'colli == {colli}')
     logging.info(f'ap == {ap}')
     logging.info(f'ap0.8 == {aps[3]}')

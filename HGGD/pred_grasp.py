@@ -165,7 +165,6 @@ class GraspPublisher(Node):
                  frame_id: str,
                  publish_hz: float,
                  pose_topic: str,
-                 width_topic: str,
                  score_topic: str):
         super().__init__("hggd_grasp_publisher")
 
@@ -177,7 +176,6 @@ class GraspPublisher(Node):
         )
 
         self.pose_pub = self.create_publisher(PoseStamped, pose_topic, qos)
-        self.width_pub = self.create_publisher(Float32, width_topic, qos)
         self.score_pub = self.create_publisher(Float32, score_topic, qos)
 
         self.pose_xyz = pose_xyz
@@ -192,7 +190,6 @@ class GraspPublisher(Node):
         self.get_logger().info(
             f"Publishing:\n"
             f"  pose : {pose_topic}\n"
-            f"  width: {width_topic}\n"
             f"  score: {score_topic}\n"
             f"at {publish_hz:.1f} Hz, frame_id='{frame_id}'"
         )
@@ -218,7 +215,6 @@ class GraspPublisher(Node):
         score_msg.data = float(self.score)
 
         self.pose_pub.publish(pose_msg)
-        self.width_pub.publish(width_msg)
         self.score_pub.publish(score_msg)
 
 
@@ -463,14 +459,12 @@ if __name__ == "__main__":
                     args.frame_id,
                     args.publish_hz,
                     args.pose_topic,
-                    args.width_topic,
                     args.score_topic,
                 )
 
                 print(
                     f"Publishing best grasp:\n"
                     f"  Pose : {args.pose_topic}\n"
-                    f"  Width: {args.width_topic}\n"
                     f"  Score: {args.score_topic}\n"
                     f"frame_id='{args.frame_id}'."
                 )
